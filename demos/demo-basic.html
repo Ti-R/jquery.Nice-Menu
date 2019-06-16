@@ -1,0 +1,98 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="../tr.menu.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../tr.menu.css" type="text/css" />
+
+<style type="text/css">
+
+#divParent {
+
+/* You need to set a size */
+	height:152px;
+	width:580px;
+
+/* Enable the scrollbar to do not go over the text when growing */
+	padding-right:10px;
+	
+	background:#777;
+	color:#DDD;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(255, 255, 255);
+	margin:20px;
+}
+#divInside {
+	padding:5px;
+}
+
+</style>
+
+</head>
+<body>
+
+	<div class="menu" id="MainMenu"></div>
+
+</body>
+
+<script>
+
+	function ClickIntrospect()
+	{
+		console.log("Click on ",this.mName, this);
+	}
+
+	// Function to add Nice Menu
+	function AddNiceMenu()
+	{
+		var niceMenu = new TR.NiceMenu("MainMenu");
+		var menuFile = niceMenu.AddEntry("File");
+		menuFile.AddEntry("Save","Ctrl+S", ClickIntrospect);
+		menuFile.AddEntry("Save As","Shift+Ctrl+C", ClickIntrospect);
+		
+		var menuRecentDisable = menuFile.AddEntryWithSubMenu("Recent-disable");
+		menuFile.SetEntryDisable(menuRecentDisable.mId);
+		menuRecentDisable.AddEntry("Test1","", ClickIntrospect);
+		var subMenuRecentDisable = menuRecentDisable.AddEntryWithSubMenu("Test2-with submenu");
+		subMenuRecentDisable.AddEntry("Test2-submenu","", ClickIntrospect);
+		
+		var menuRecentEnable = menuFile.AddEntryWithSubMenu("Recent-enable");
+		menuRecentEnable.AddEntry("Test1","", ClickIntrospect);
+		var subMenuRecentEnable = menuRecentEnable.AddEntryWithSubMenu("Test2-with submenu");
+		subMenuRecentEnable.AddEntry("Test2-submenu","", ClickIntrospect);
+		
+		menuFile.AddEntry("Exit","Ctrl+Q", ClickIntrospect);
+		
+		
+		var menuEdit = niceMenu.AddEntry("Edit");
+		menuEdit.AddEntry("Reformat","Ctrl+C", ClickIntrospect);
+		menuEdit.AddEntryNoSelection("<hr>");
+		menuEdit.AddEntry("Find","Ctrl+F", ClickIntrospect);
+		menuEdit.AddEntry("Replace","Ctrl+R", ClickIntrospect);
+		
+		
+		var menuOSL = niceMenu.AddEntry("OSL");
+		
+		menuOSL.AddEntry("Compile","F5", ClickIntrospect, true);
+		var menuActivateRenderId = menuOSL.AddEntryCheckBox("Activate Render","F10", ClickIntrospect);
+		
+		console.log("Check State before checked:", menuOSL.IsEntryCheck(menuActivateRenderId));  	
+		menuOSL.SetEntryCheck(menuActivateRenderId);
+		console.log("Check State after checked:", menuOSL.IsEntryCheck(menuActivateRenderId));
+		
+		menuOSL.AddEntryNoSelection("<hr>");
+		menuOSL.AddEntryRadio("RadioGroup1","RadioOption1","F11", ClickIntrospect);
+		menuOSL.AddEntryRadio("RadioGroup1","RadioOption2","F12", ClickIntrospect);
+		
+		var menuInfo = niceMenu.AddEntry("Info");
+		menuInfo.AddEntry("About","", ClickIntrospect);
+
+	}
+	
+	AddNiceMenu();
+	
+</script>
+</html>
